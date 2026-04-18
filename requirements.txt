@@ -4,3 +4,4 @@ django-environ
 django-restframework
 djangorestframework-simplejwt
 Pillow
+django-cors-headers

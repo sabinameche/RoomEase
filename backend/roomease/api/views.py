@@ -4,3 +4,4 @@ from django.shortcuts import render
 from .views_dir import register_view
 
 RegisterView = register_view.RegisterView
+LoginView = register_view.LoginView

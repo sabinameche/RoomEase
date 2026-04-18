@@ -1,0 +1,84 @@
+body {
+    background: #eef2f3;
+}
+
+/* NAVBAR */
+.navbar {
+    background: linear-gradient(to right, #3ca55c, #2e8b57);
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.navbar nav a {
+    margin-left: 20px;
+    color: white;
+}
+
+/* HERO */
+.hero {
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    color: #555;
+    margin-bottom: 25px;
+}
+
+/* BUTTONS */
+.primary-btn {
+    background: linear-gradient(to right, #3ca55c, #2e8b57);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 6px;
+    margin-right: 10px;
+}
+
+.secondary-btn {
+    border: 2px solid #2e8b57;
+    color: #2e8b57;
+    padding: 12px 25px;
+    border-radius: 6px;
+}
+
+/* FEATURES */
+.features {
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.feature-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.feature-card {
+    background: white;
+    padding: 25px;
+    width: 250px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
