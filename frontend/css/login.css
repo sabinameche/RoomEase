@@ -1,0 +1,64 @@
+body {
+    background: #eef2f3;
+}
+
+/* NAVBAR */
+.navbar {
+    background: linear-gradient(to right, #3ca55c, #2e8b57);
+    padding: 20px 40px;
+    color: white;
+    font-size: 20px;
+}
+
+/* CENTERING */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 40px;
+    width: 350px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.card h2 {
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* INPUTS */
+.card input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+/* BUTTON */
+.card button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to right, #3ca55c, #2e8b57);
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* SWITCH TEXT */
+.switch {
+    margin-top: 15px;
+}
