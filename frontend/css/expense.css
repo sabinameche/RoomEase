@@ -1,0 +1,70 @@
+* {
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+background:#f5f6f8;
+}
+
+/* NAVBAR */
+
+.navbar {
+background: linear-gradient(90deg,#4CAF50,#3e8e63);
+color:white;
+padding:15px 30px;
+display:flex;
+justify-content:space-between;
+}
+
+.navbar nav a {
+color:white;
+text-decoration:none;
+margin-left:25px;
+}
+
+/* CONTAINER */
+
+.container {
+width:50%;
+margin:30px auto;
+}
+
+/* CARD */
+
+.card {
+background:white;
+padding:20px;
+border-radius:8px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* FORM */
+
+form {
+display:flex;
+flex-direction:column;
+}
+
+label {
+margin-top:10px;
+margin-bottom:5px;
+}
+
+input,select {
+padding:10px;
+border-radius:6px;
+border:1px solid #ddd;
+}
+
+.primary-btn {
+margin-top:20px;
+padding:12px;
+background: linear-gradient(90deg,#4CAF50,#3e8e63);
+border:none;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}

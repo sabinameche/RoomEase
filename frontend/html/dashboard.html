@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - RoomEase</title>
+<link rel="stylesheet" href="../css/dashboard.css">
+<link rel="stylesheet" href="../css/group_popup.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <div class="logo">
+        🏠 RoomEase
+    </div>
+
+    <nav>
+        <a href="#" class="active">Dashboard</a>
+        <a href="http://127.0.0.1:5501/RoomEase/frontend/html/group.html">Groups</a>
+        <a href="#">Profile</a>
+    </nav>
+</header>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+
+    <h1>Dashboard</h1>
+
+    <!-- BALANCE CARD -->
+    <div class="card">
+        <h2>Your Balance</h2>
+
+        <div class="balance-grid">
+            <div class="balance-item">
+                <p>You Owe</p>
+                <h3 class="negative">$30.00</h3>
+            </div>
+
+            <div class="balance-item">
+                <p>You Are Owed</p>
+                <h3 class="positive">$120.00</h3>
+            </div>
+
+            <div class="balance-item">
+                <p>Net Balance</p>
+                <h3 class="positive">$90.00</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- GROUPS -->
+    <div class="card">
+        <h2>Your Groups</h2>
+
+        <div class="group">
+            <div>
+                <h3>Roommates A</h3>
+                <p>2 Members • You owe $30</p>
+            </div>
+            <span>›</span>
+        </div>
+
+        <div class="group">
+            <div>
+                <h3>Trip to Vegas</h3>
+                <p>3 Members • You are owed $50</p>
+            </div>
+            <span>›</span>
+        </div>
+
+        <button class="primary-btn" id="create-group">+ Create Group</button>
+    </div>
+
+    <!-- RECENT ACTIVITY -->
+    <div class="card">
+        <h2>Recent Activity</h2>
+
+        <div class="activity">
+            <p>🧾 Grocery added by Sabrina</p>
+        </div>
+
+        <div class="activity">
+            <p>💰 Ram settled $20</p>
+        </div>
+
+        <div class="activity">
+            <p>⚡ Electricity paid by Hari</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- GROUP MODAL -->
+<div id="groupModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>🏠 Create RoomEase Group</h2>
+            <span class="close-btn" id = "closeBtn">&times;</span>
+        </div>
+
+        <div class="modal-body">
+
+            <label>Group Name</label>
+            <input type="text" id ="group-name" placeholder="Roommates">
+
+            <label>Currency</label>
+            <input type="text" id = "currency-type" placeholder="NPR">
+
+            <label>Invite Members</label>
+
+            <div id="email-container">
+                <div class="email-row">
+                    <input type="email" class = "email-detail" placeholder="Enter email">
+                    <button class="add-btn" id="addEmail">+</button>
+                </div>
+            </div>
+
+            <button class="create-btn" id="create-group-btn">Create Group</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script type= "module" src="../js/group.js"></script>
+
+</body>
+</html>

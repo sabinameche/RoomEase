@@ -1,0 +1,108 @@
+* {
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+background:#f5f6f8;
+}
+
+/* NAVBAR */
+
+.navbar {
+background: linear-gradient(90deg,#4CAF50,#3e8e63);
+color:white;
+padding:15px 30px;
+display:flex;
+justify-content:space-between;
+}
+
+.navbar nav a {
+color:white;
+text-decoration:none;
+margin-left:25px;
+}
+
+.navbar nav a.active {
+border-bottom:3px solid white;
+}
+
+/* CONTAINER */
+
+.container {
+width:60%;
+margin:30px auto;
+}
+
+h1 {
+margin-bottom:20px;
+}
+
+/* CARD */
+
+.card {
+background:white;
+padding:20px;
+margin-bottom:20px;
+border-radius:8px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card-header {
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+/* MEMBER */
+
+.member {
+padding:10px 0;
+border-bottom:1px solid #eee;
+}
+
+/* BALANCE */
+
+.balance {
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid #eee;
+}
+
+.positive {
+color:#4CAF50;
+}
+
+.negative {
+color:#e74c3c;
+}
+
+/* EXPENSE */
+
+.expense {
+display:flex;
+justify-content:space-between;
+padding:15px;
+background:#f9f9f9;
+margin-bottom:10px;
+border-radius:8px;
+}
+
+/* BUTTON */
+
+.primary-btn {
+background: linear-gradient(90deg,#4CAF50,#3e8e63);
+padding:10px 15px;
+color:white;
+text-decoration:none;
+border-radius:6px;
+}
+
+.primary-btn.small {
+padding:8px 12px;
+font-size:14px;
+}
