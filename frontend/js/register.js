@@ -1,3 +1,4 @@
+import { ShowAlert } from "./utils.js";
 // user registration
 
 const registerBtn = document.getElementById("register")
@@ -18,7 +19,7 @@ async function registerUser(){
     registerBtn.disabled = true;
 
     try{
-        const response = await fetch("http://127.0.0.1:8000/api/register/",{
+        const response = await fetch("http://127.0.0.1:8000/api/signup/",{
             method : "POST",
             headers :{
                 "Content-Type": "application/json"
@@ -31,16 +32,16 @@ async function registerUser(){
         });
         const data = await response.json();
         if (response.ok){
-            alert("Registration Successfull")
+            ShowAlert("Registration Successfull")
             window.location.href = "http://127.0.0.1:5501/RoomEase/frontend/html/login.html"
 
         }else{
-            alert("Error:" +JSON.stringify(data) )
+            ShowAlert("Error:" +JSON.stringify(data) )
         }
     }
     catch(error){
     console.error(error);
-    alert("Something went wrong");
+    ShowAlert("Something went wrong");
 }finally {
         // Restore button state
         registerBtn.innerHTML = originalText;
@@ -61,7 +62,7 @@ loginBtn.addEventListener("click",async function(e){
 
 
 async function loginUser(){
-    console.log("should be here.....")
+    console.log("is it inside here or not")
     const username = document.getElementById("name").value;
     const password = document.getElementById("pass").value;
     const loginBtn = document.getElementById('login');
@@ -82,16 +83,17 @@ async function loginUser(){
             })
         });
         const data = await response.json()
-        console.log("refresh token",data.refresh_token)
-        console.log("access_token",data.access_token)
         if(response.ok){
-            alert("Login Successfull")
+            localStorage.setItem("access_token",data.access_token)
+            localStorage.setItem("refresh_token",data.refresh_token)
+            ShowAlert("Login Successfull")
+            window.location.href = "http://127.0.0.1:5501/RoomEase/frontend/html/dashboard.html"
         }else{
-            alert("Error:" +JSON.stringify(data) )
+            ShowAlert("Error:" +JSON.stringify(data) )
         }
     }catch(error){
         console.error(error);
-        alert("Something went wrong");
+        ShowAlert("Something went wrong");
     }finally {
         // Restore button state
         loginBtn.innerHTML = originalText;
