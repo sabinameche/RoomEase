@@ -79,23 +79,51 @@ async function displayGroup(){
     
     if (response.ok){
         const groupInfo = document.getElementById('groupInfo');
-        const card = document.querySelector('.card');
-        card.innerHTML = ``;
         groupInfo.innerHTML = ``;
+
         res.data.forEach(data =>{
-            const div = document.createElement('div');
-            div.innerHTML = `
-            <h3>${data.name}</h3>
-            `
-            groupInfo.appendChild(div)
-            const divi = document.createElement('div');
+
+            //group container
+            const groupDiv = document.createElement('div');
+            groupDiv.classList.add('group-container')
+
+            //title of the group
+            const header = document.createElement('div');
+            header.classList.add('group-header');
+
+            const actions = document.createElement('div');
+            actions.classList.add('group-actions')
+
+            const editBtn = document.createElement('button')
+            editBtn.classList.add('edit-btn');
+            editBtn.textContent = 'Edit';
+
+            const deleteBtn = document.createElement('button')
+            deleteBtn.classList.add('delete-btn')
+            deleteBtn.textContent = 'Delete';
+
+            actions.appendChild(editBtn)
+            actions.appendChild(deleteBtn)
+
+            const title = document.createElement('h3')
+            title.textContent = data.name
+
+            //card to show memebers
+            const card = document.createElement('div');
+            card.classList.add('card')
+        
             let memberHTML = `<h3>Members</h3>`
             
             data.members.forEach(member=>{
                 memberHTML += `<p>${member.username}</p>`
                 })
-            divi.innerHTML = memberHTML
-            card.appendChild(divi)
+            card.innerHTML = memberHTML
+            
+            header.appendChild(title)
+            header.appendChild(actions)
+            groupDiv.appendChild(header)
+            groupDiv.appendChild(card)
+            groupInfo.appendChild(groupDiv)
         })
     
         
@@ -121,7 +149,6 @@ async function createGroup(){
         }
         
     });
-    console.log(emails,"emailko value")
     
     try{
         const response = await fetch("http://127.0.0.1:8000/api/group/",{
@@ -148,3 +175,8 @@ async function createGroup(){
     
 }
 
+// async function deleteGroup(){
+//     try{
+//         const deleteBbtn = document.querySelectorAll('deleteBtn')
+//     }
+// }
