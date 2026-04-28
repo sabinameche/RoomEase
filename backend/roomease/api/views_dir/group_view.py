@@ -4,9 +4,14 @@ from rest_framework.response import Response
 from ..models import Group,GroupMember,GroupInvite
 from django.db import transaction
 from django.http import HttpResponseRedirect
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class GroupView(APIView):
-    
+
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self,request,id=False):
         user = request.user
         if id:
@@ -50,13 +55,18 @@ class GroupView(APIView):
         return Response({"success":False})
     
     def patch(self,request,id):
+        
         group = Group.objects.get(id = id)
         data = request.data.copy()
+
         if request.user == group.created_by:
             serializer = GroupSerializer(group,data=data,partial= True)
+
             if serializer.is_valid():
                 serializer.save()
+
                 return Response({"success":True,"data":serializer.data,"message":"Group updated successfully!"})
+            
             return Response({"success":False,"message":serializer.errors})
         return Response({"success":False,"message":"You are not allowed to edit!"})
     
