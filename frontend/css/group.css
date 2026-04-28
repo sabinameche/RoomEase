@@ -106,3 +106,26 @@ border-radius:6px;
 padding:8px 12px;
 font-size:14px;
 }
+
+/* group name card */
+.group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.group-actions {
+    display: flex;
+    gap: 8px;   /* space between buttons */
+}
+
+.group-header h3 {
+    margin: 0;
+}
+
+.edit-btn, .delete-btn {
+    border-radius: 5px;
+    background-color: rgb(231, 229, 229);
+    padding: 4px 10px;
+    cursor: pointer;
+}
