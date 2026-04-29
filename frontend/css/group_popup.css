@@ -68,10 +68,15 @@
     flex: 1;
 }
 
+#email-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
 /* ADD BUTTON */
 
-.add-btn {
+.addEmail {
     background: #6c63ff;
     color: white;
     border: none;
@@ -80,14 +85,14 @@
     cursor: pointer;
 }
 
-.add-btn:hover {
+.addEmail:hover {
     background: #574fd6;
 }
 
 
 /* CREATE BUTTON */
 
-.create-btn {
+.create-btn,.edits-btn {
     width: 100%;
     margin-top: 20px;
     padding: 12px;
