@@ -30,7 +30,7 @@ def send_group_invite_email(invite):
             subject,
             "",
             settings.EMAIL_HOST_USER,
-            invite.email
+            [invite.email]
         )
         
     email.attach_alternative(html_content,"text/html")

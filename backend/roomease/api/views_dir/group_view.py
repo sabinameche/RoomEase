@@ -34,26 +34,31 @@ class GroupView(APIView):
                     "message": f"Group '{group_name}' already exists."
                 })
         data = request.data.copy()
-        email = data.pop("email")
+        emails = data.pop("email",[])
         
         data["created_by"] = request.user.id
 
         serializer = GroupSerializer(data= data)
         
         if serializer.is_valid():
-            print("why no save??")
             
-            serializer.save()
-            
-            group = Group.objects.get(id=serializer.data["id"])
+            group = serializer.save()
+            print("yo serializer valid xa ki naii")
+            print("yo save hudae xa ki xaina",group)
            
             GroupMember.objects.create(user=request.user,group=group,role="ADMIN")
-            GroupInvite.objects.create(email=email,group = group,invited_by = request.user)
+            if emails:
+                for email in emails:
+                    GroupInvite.objects.create(email=email,group = group,invited_by = request.user)
 
             return Response({"success":True,"data":serializer.data})
         print(serializer.errors)
-        return Response({"success":False})
+        return Response({
+            "success": False,
+            "errors": serializer.errors
+        }, status=400)
     
+    @transaction.atomic
     def patch(self,request,id):
         
         group = Group.objects.get(id = id)
