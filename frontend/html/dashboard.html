@@ -94,12 +94,12 @@
 </div>
 
 <!-- GROUP MODAL -->
-<div id="groupModal" class="modal">
+<!-- <div id="groupModal" class="modal">
 
     <div class="modal-content">
 
         <div class="modal-header">
-            <h2>🏠 Create RoomEase Group</h2>
+            <h2 id="group-form-title">🏠 Create RoomEase Group</h2>
             <span class="close-btn" id = "closeBtn">&times;</span>
         </div>
 
@@ -126,8 +126,19 @@
 
     </div>
 
-</div>
+</div> -->
 
+<div id="modalContainer"></div>
+
+<script>
+async function loadModal() {
+    const res = await fetch('../html/group_modal.html');
+    const html = await res.text();
+    document.getElementById('modalContainer').innerHTML = html;
+}
+
+loadModal();
+</script>
 <script type= "module" src="../js/group.js"></script>
 
 </body>

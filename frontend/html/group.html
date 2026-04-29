@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Group - RoomEase</title>
 <link rel="stylesheet" href="../css/group.css">
+<link rel="stylesheet" href="../css/group_popup.css">
 </head>
 
 <body>
@@ -78,6 +79,18 @@
 </div>
 
 </div>
+<div id="modalContainer"></div>
+
+<script>
+async function loadModal() {
+    const res = await fetch('../html/group_modal.html');
+    const html = await res.text();
+    document.getElementById('modalContainer').innerHTML = html;
+}
+
+loadModal();
+</script>
+
 
 <script type= "module" src="../js/group.js"></script>
 </body>
