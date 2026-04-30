@@ -17,7 +17,10 @@ class GroupView(APIView):
         if id:
             group = Group.objects.filter(id=id,is_deleted= False).first()
         else:
-            group = Group.objects.filter(created_by = user,is_deleted = False)
+            group = Group.objects.prefetch_related('members').filter(
+                    is_deleted=False,
+                    members__user=request.user
+                ).distinct()
 
         serializer = GroupSerializer(group,many=True)
         return Response({"success":True,"data":serializer.data})
@@ -43,8 +46,6 @@ class GroupView(APIView):
         if serializer.is_valid():
             
             group = serializer.save()
-            print("yo serializer valid xa ki naii")
-            print("yo save hudae xa ki xaina",group)
            
             GroupMember.objects.create(user=request.user,group=group,role="ADMIN")
             if emails:
