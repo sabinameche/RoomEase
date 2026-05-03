@@ -16,14 +16,16 @@ class GroupView(APIView):
         user = request.user
         if id:
             group = Group.objects.filter(id=id,is_deleted= False).first()
+            serializer = GroupSerializer(group)
         else:
             group = Group.objects.prefetch_related('members').filter(
                     is_deleted=False,
                     members__user=request.user,
                     members__is_deleted = False
                 ).distinct()
+            serializer = GroupSerializer(group,many=True)
 
-        serializer = GroupSerializer(group,many=True)
+        
         return Response({"success":True,"data":serializer.data})
     
     @transaction.atomic
