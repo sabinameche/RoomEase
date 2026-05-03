@@ -6,6 +6,7 @@
 <title>Dashboard - RoomEase</title>
 <link rel="stylesheet" href="../css/dashboard.css">
 <link rel="stylesheet" href="../css/group_popup.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
@@ -26,7 +27,11 @@
 <!-- MAIN CONTAINER -->
 <div class="container">
 
-    <h1>Dashboard</h1>
+    <div class = 'dashboard-header'>
+        <h1>Dashboard</h1>
+        <button class="primary-btn" id="create-group">+ Create Group</button>
+    </div>
+    
 
     <!-- BALANCE CARD -->
     <div class="card">
@@ -53,24 +58,8 @@
     <!-- GROUPS -->
     <div class="card">
         <h2>Your Groups</h2>
+        <div class="group" id="groupList">
 
-        <div class="group">
-            <div>
-                <h3>Roommates A</h3>
-                <p>2 Members • You owe $30</p>
-            </div>
-            <span>›</span>
-        </div>
-
-        <div class="group">
-            <div>
-                <h3>Trip to Vegas</h3>
-                <p>3 Members • You are owed $50</p>
-            </div>
-            <span>›</span>
-        </div>
-
-        <button class="primary-btn" id="create-group">+ Create Group</button>
     </div>
 
     <!-- RECENT ACTIVITY -->
@@ -93,41 +82,6 @@
 
 </div>
 
-<!-- GROUP MODAL -->
-<!-- <div id="groupModal" class="modal">
-
-    <div class="modal-content">
-
-        <div class="modal-header">
-            <h2 id="group-form-title">🏠 Create RoomEase Group</h2>
-            <span class="close-btn" id = "closeBtn">&times;</span>
-        </div>
-
-        <div class="modal-body">
-
-            <label>Group Name</label>
-            <input type="text" id ="group-name" placeholder="Roommates">
-
-            <label>Currency</label>
-            <input type="text" id = "currency-type" placeholder="NPR">
-
-            <label>Invite Members</label>
-
-            <div id="email-container">
-                <div class="email-row">
-                    <input type="email" class = "email-detail" placeholder="Enter email">
-                    <button class="add-btn" id="addEmail">+</button>
-                </div>
-            </div>
-
-            <button class="create-btn" id="create-group-btn">Create Group</button>
-
-        </div>
-
-    </div>
-
-</div> -->
-
 <div id="modalContainer"></div>
 
 <script>
@@ -140,6 +94,7 @@ async function loadModal() {
 loadModal();
 </script>
 <script type= "module" src="../js/group.js"></script>
+<script type= "module" src="../js/dashboard.js"></script>
 
 </body>
 </html>

@@ -39,11 +39,39 @@ width: 60%;
 margin: 30px auto;
 }
 
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-header .primary-btn {
+    width: auto;
+    margin-top: 0; /* optional, removes extra top gap */
+}
+
 h1 {
 margin-bottom: 20px;
 color: #333;
 }
 
+#groupList {
+    display: flex;
+    flex-direction: column;  
+    gap: 10px;   
+    background: #f9f9f9;
+    cursor: pointer;            
+}
+.group-name {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;            
+}
+
+.quick-actions{
+    border:none;
+    cursor:pointer;
+}
 /* CARD */
 
 .card {
@@ -82,13 +110,11 @@ color: #e74c3c;
 
 .group {
 display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 15px;
+flex-direction: column;   
+gap: 6px;
+align-items: left;
 border-radius: 8px;
-margin-bottom: 10px;
-background: #f9f9f9;
-cursor: pointer;
+
 }
 
 .group:hover {

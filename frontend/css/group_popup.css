@@ -92,7 +92,7 @@
 
 /* CREATE BUTTON */
 
-.create-btn,.edits-btn {
+.create-btn,.edits-btn,.invites-btn {
     width: 100%;
     margin-top: 20px;
     padding: 12px;

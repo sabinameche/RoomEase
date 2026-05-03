@@ -14,12 +14,23 @@ class GroupView(APIView):
 
     def get(self,request,id=False):
         user = request.user
+        
         if id:
             group = Group.objects.filter(id=id,is_deleted= False).first()
-        else:
-            group = Group.objects.filter(created_by = user,is_deleted = False)
+            member = GroupMember.objects.get(user = user,group = group, is_deleted = False)
+            roles = member.role
 
-        serializer = GroupSerializer(group,many=True)
+            serializer = GroupSerializer(group)
+            return Response({"success":True,"data":serializer.data,"role":roles})
+        else:
+            group = Group.objects.prefetch_related('members').filter(
+                    is_deleted=False,
+                    members__user=request.user,
+                    members__is_deleted = False
+                ).distinct()
+            serializer = GroupSerializer(group,many=True)
+
+        
         return Response({"success":True,"data":serializer.data})
     
     @transaction.atomic
@@ -43,8 +54,6 @@ class GroupView(APIView):
         if serializer.is_valid():
             
             group = serializer.save()
-            print("yo serializer valid xa ki naii")
-            print("yo save hudae xa ki xaina",group)
            
             GroupMember.objects.create(user=request.user,group=group,role="ADMIN")
             if emails:
