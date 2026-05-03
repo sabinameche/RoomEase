@@ -26,6 +26,10 @@ async function displayGroup(){
             //group container
             const groupDiv = document.createElement('div');
             groupDiv.classList.add('group')
+            
+            groupDiv.addEventListener('click',()=>{
+                window.location.href = `http://127.0.0.1:5501/RoomEase/frontend/html/group.html?id=${data.id}`
+            })
 
             //title of the group
             const header = document.createElement('div');

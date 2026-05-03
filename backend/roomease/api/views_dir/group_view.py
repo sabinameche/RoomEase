@@ -14,9 +14,14 @@ class GroupView(APIView):
 
     def get(self,request,id=False):
         user = request.user
+        
         if id:
             group = Group.objects.filter(id=id,is_deleted= False).first()
+            member = GroupMember.objects.get(user = user,group = group, is_deleted = False)
+            roles = member.role
+
             serializer = GroupSerializer(group)
+            return Response({"success":True,"data":serializer.data,"role":roles})
         else:
             group = Group.objects.prefetch_related('members').filter(
                     is_deleted=False,

@@ -123,7 +123,7 @@ font-size:14px;
     margin: 0;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn, .delete-btn,.invite-btn {
     border-radius: 5px;
     background-color: rgb(231, 229, 229);
     padding: 4px 10px;
