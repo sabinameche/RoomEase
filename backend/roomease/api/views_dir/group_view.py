@@ -19,7 +19,8 @@ class GroupView(APIView):
         else:
             group = Group.objects.prefetch_related('members').filter(
                     is_deleted=False,
-                    members__user=request.user
+                    members__user=request.user,
+                    members__is_deleted = False
                 ).distinct()
 
         serializer = GroupSerializer(group,many=True)

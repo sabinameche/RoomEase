@@ -2,6 +2,8 @@ import { ShowAlert } from "./utils.js";
 
 document.addEventListener('DOMContentLoaded',()=>{
     displayGroup()
+
+    
 })
 async function displayGroup(){
     const accessToken = localStorage.getItem("access_token")
@@ -29,8 +31,14 @@ async function displayGroup(){
             const header = document.createElement('div');
             header.classList.add('group-name');
 
-            const actions = document.createElement('div');
+            const actions = document.createElement('button');
             actions.classList.add('quick-actions')
+            actions.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> Leave`;
+           
+            actions.addEventListener('click', () => {
+                console.log("leave is clicked");
+                leaveGroup(data.id,groupDiv);
+            });
 
             const name = document.createElement('h3')
             name.textContent = data.name
@@ -50,6 +58,29 @@ async function displayGroup(){
         
     }
 }catch(error){
+        ShowAlert("Something went wrong");
+        console.log(error)
+    }
+}
+
+async function leaveGroup(id,groupDiv){
+    const accessToken = localStorage.getItem('access_token');
+    
+    try{
+        const response = await fetch(`http://127.0.0.1:8000/api/group_member/${id}/`,{
+            method:'DELETE',
+            headers:{
+            "Authorization":`Bearer ${accessToken}`
+            }
+        });
+        const res = await response.json()
+        if(response.ok){
+            ShowAlert("You left the group!")
+            groupDiv.remove()
+            
+
+        }
+    }catch(error){
         ShowAlert("Something went wrong");
         console.log(error)
     }

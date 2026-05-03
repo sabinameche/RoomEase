@@ -269,8 +269,7 @@ async function editGroup(Id){
         });
 
         const res = await response.json();
-        console.log(response.status);
-        console.log(res);
+       
         if(response.ok){
             ShowAlert("Group created successfully!");
     

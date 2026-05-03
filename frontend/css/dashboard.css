@@ -62,7 +62,16 @@ color: #333;
     background: #f9f9f9;
     cursor: pointer;            
 }
+.group-name {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;            
+}
 
+.quick-actions{
+    border:none;
+    cursor:pointer;
+}
 /* CARD */
 
 .card {
