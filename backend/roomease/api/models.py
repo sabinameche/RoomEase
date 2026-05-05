@@ -46,3 +46,4 @@ class GroupInvite(models.Model):
     
     def __str__(self):
         return f"Invite to {self.group.name} - {self.email}"
+    
