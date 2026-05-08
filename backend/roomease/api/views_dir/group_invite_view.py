@@ -73,19 +73,39 @@ class GroupInviteView(APIView):
     def post(self,request,id):
 
         data = request.data.copy()
+        created_invites = []
+        errors = []
 
         emails = data.pop("email",[])
-        print("emails ma k k xa",emails)
 
         for email in emails:
-            data["group"] = id
-            data["invited_by"] = request.user.id
-            data["email"] = email
-            serializer =  GroupInviteSerializer(data=data)
+            payload = {
+                "group": id,
+                "invited_by": request.user.id,
+                "email":email
+            }
+        
+            serializer =  GroupInviteSerializer(data=payload)
         
             if serializer.is_valid():
                 
                 serializer.save()
-            return Response({"success":False,"message":"Something's wrong","errors":serializer.errors})
-        return Response({"success":True,"data":serializer.data,"message":"GroupInvitation Created Successfully."})
+                created_invites.append(serializer.data)
+            else:
+                errors.append({"emails":email,
+                               "errors":serializer.errors})
+        if errors:
+            return Response({
+                "success": False,
+                "created": created_invites,
+                "errors": errors
+            }, status=400)
+
+        return Response({
+            "success": True,
+            "data": created_invites,
+            "message": "Group invitations created successfully."
+        })
+            
+        
         
