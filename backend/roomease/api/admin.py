@@ -3,11 +3,11 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.admin import ModelAdmin
 
 # Register your models here.
-from api.models import (CustomUser,Group,GroupInvite,GroupMember)
+from api.models import (CustomUser,Group,GroupInvite,GroupMember,Expense,ExpenseSplit)
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username','profile_picture')
+    list_display = ('id','username','profile_picture')
 
 @admin.register(Group)
 class GroupAdmin(ModelAdmin):
@@ -19,4 +19,12 @@ class GroupInviteAdmin(ModelAdmin):
 
 @admin.register(GroupMember)
 class GroupMemberAdmin(ModelAdmin):
-    list_display = ("user","role","group")
+    list_display = ("id","user","role","group")
+
+@admin.register(Expense)
+class ExpenseAdmin(ModelAdmin):
+    list_display = ('id','group','title','amount','paid_by','created_at')
+
+@admin.register(ExpenseSplit)
+class ExpenseSplitAdmin(ModelAdmin):
+    list_display = ['expense','user','amount']

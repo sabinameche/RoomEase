@@ -47,3 +47,15 @@ class GroupInvite(models.Model):
     def __str__(self):
         return f"Invite to {self.group.name} - {self.email}"
     
+class Expense(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    paid_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class ExpenseSplit(models.Model):
+    expense = models.ForeignKey(Expense, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
