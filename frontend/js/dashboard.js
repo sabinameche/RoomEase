@@ -40,7 +40,7 @@ async function displayGroup(){
             actions.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> Leave`;
            
             actions.addEventListener('click', () => {
-                console.log("leave is clicked");
+                
                 leaveGroup(data.id,groupDiv);
             });
 
