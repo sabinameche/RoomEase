@@ -1,7 +1,8 @@
 import { ShowAlert } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async function(){
-    await loadModal();
+    await loadGroupModal();
+    
     displayGroupDetail();
 
     const modal = document.getElementById('groupModal');
@@ -100,13 +101,20 @@ function openModal(mode = 'create') {
         document.getElementById('group-form-title').textContent = 'Create Group';
         document.getElementById('email-box').style.display = 'flex';
         document.getElementById('edit-group-btn').style.display = 'none';
-        document.getElementById('invite-group-btn').style.display = 'none';
+        const invite = document.getElementById('invite-member-btn')
+        if(invite){
+        document.getElementById('invite-member-btn').style.display = 'none';
+    }
         document.getElementById('create-group-btn').style.display = 'flex';
         
     } else if(mode === 'edit'){
         document.getElementById('group-form-title').textContent = 'Edit Group';
         document.getElementById('email-box').style.display = 'none';
-        document.getElementById('invite-group-btn').style.display = 'none';
+        const invite = document.getElementById('invite-member-btn')
+        if(invite){
+        document.getElementById('invite-member-btn').style.display = 'none';
+    }
+
         document.getElementById('edit-group-btn').style.display = 'flex';
         document.getElementById('create-group-btn').style.display = 'none';
     }else{
@@ -117,7 +125,8 @@ function openModal(mode = 'create') {
         document.getElementById('edit-group-btn').style.display = 'none';
         const invite = document.getElementById('invite-group-btn')
         if(invite){
-        document.getElementById('invite-group-btn').style.display = 'flex';}
+        document.getElementById('invite-group-btn').style.display = 'flex';
+    }
         document.getElementById('create-group-btn').style.display = 'none';
     }
     
@@ -359,6 +368,7 @@ async function deleteGroup(groupDiv,groupId){
 }
 
 async function inviteMember(id){
+    console.log("function getting called")
     let emails  = [];
     const accessToken = localStorage.getItem('access_token');
     const emailInputs = document.querySelectorAll('.email-detail');

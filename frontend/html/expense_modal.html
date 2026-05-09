@@ -1,0 +1,45 @@
+<!-- Expense MODAL -->
+<div id="expenseModal" class="expense-modal" display  = "none">
+
+    <div class="expense-modal-content">
+
+        <div class="expense-modal-header">
+            <h2 id="expense-header-title">Create Expense</h2>
+            <span class="close-expense-btn" id = "closeExpenseBtn">&times;</span>
+        </div>
+
+        <div class="expense-modal-body">
+
+            <div id = "expense-title">
+            <label>Expense Name</label>
+            <input type="text" id ="expense-name" placeholder="Expenses">
+            </div>
+
+            <div id = "Amount-label">
+            <label>Amount</label>
+            <input type="number" id = "expense-amount" placeholder="0">
+            <label>Date</label>
+            <input type = "date" id="expense-date">
+            </div>
+
+            <div id="expense-category">
+            <label>Category</label>
+            <input type = "text" palceholder = "Rent">
+            <label>Paid by</label>
+                <input type = "text" placeholder="members">
+            </div>
+            <div id = "expense-split">
+                <label>Split Type</label>
+                <input type = "text" placeholder="equal">
+                <label>Select Participants</label>
+                <input type = "text">
+
+            </div>
+
+            <button class="create-expense-btn" id="createExpense">Create Expense</button>
+            
+        </div>
+
+    </div>
+
+</div>
