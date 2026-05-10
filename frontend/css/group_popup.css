@@ -77,16 +77,16 @@
 /* ADD BUTTON */
 
 .addEmail {
-    background: #6c63ff;
+    background: #2e8b57;
+    border: 2px solid #2e8b57;
     color: white;
-    border: none;
     padding: 10px 14px;
     border-radius: 6px;
     cursor: pointer;
 }
 
 .addEmail:hover {
-    background: #574fd6;
+    background: #2e8b57;
 }
 
 
@@ -96,7 +96,8 @@
     width: 100%;
     margin-top: 20px;
     padding: 12px;
-    background: #6c63ff;
+    background: #2e8b57;
+    border: 2px solid #2e8b57;
     color: white;
     border: none;
     border-radius: 6px;
@@ -104,5 +105,5 @@
 }
 
 .create-btn:hover {
-    background: #574fd6;
+    background: #2e8b57;
 }

@@ -1,7 +1,6 @@
 import { ShowAlert } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async function(){
-    await loadGroupModal();
     
     displayGroupDetail();
 
@@ -75,6 +74,7 @@ document.addEventListener("DOMContentLoaded", async function(){
         if (target.classList.contains('group-container')){
             groupDetail(target.dataset.Id)
         }
+
     });
 
     // Modal background click

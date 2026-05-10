@@ -1,5 +1,6 @@
 <!-- Expense MODAL -->
-<div id="expenseModal" class="expense-modal" display  = "none">
+<link rel="stylesheet" href="../css/expense_modal.css">
+<div id="expenseModal" class="expense-modal">
 
     <div class="expense-modal-content">
 
@@ -11,32 +12,56 @@
         <div class="expense-modal-body">
 
             <div id = "expense-title">
-            <label>Expense Name</label>
+            <label>Title</label>
             <input type="text" id ="expense-name" placeholder="Expenses">
             </div>
+            <div class = 'second-row'>
 
-            <div id = "Amount-label">
-            <label>Amount</label>
-            <input type="number" id = "expense-amount" placeholder="0">
-            <label>Date</label>
-            <input type = "date" id="expense-date">
+                <div id = "Amount-label">
+                <label>Amount</label>
+                <input type="number" id = "expense-amount" placeholder="0">
+                </div>
+
+                <div id = 'date-label'>
+                <label>Date</label>
+                <input type = "date" id="expense-date">
+                </div>
             </div>
 
-            <div id="expense-category">
-            <label>Category</label>
-            <input type = "text" palceholder = "Rent">
-            <label>Paid by</label>
-                <input type = "text" placeholder="members">
-            </div>
-            <div id = "expense-split">
-                <label>Split Type</label>
-                <input type = "text" placeholder="equal">
-                <label>Select Participants</label>
-                <input type = "text">
+            <div class ='third-row'>
 
+                <div id="expense-category">
+                <label>Category</label>
+                <input type = "text" placeholder = "Rent">
+                </div>
+                <div id = 'paid-by'>
+                <label>Paid by</label>
+                <select>
+                    <option>Bina</option>
+                </select>
+                </div>
+                </div>
+            <div class = 'last-row'>
+                <div id = "expense-split">
+                    <label>Split Type</label>
+                    <select>
+                    <option>Equal</option>
+                    <option>Percentage</option>
+                    <option>Exact</option>
+                    <option>Shares</option>
+                    </select>
+                    </div>
+                    
+                    <div id = 'select-participants'>
+                    <label>Select Participants</label>
+                    <select>
+                        <option>Bina</option>
+                    </select>
+                    </div>
+                
             </div>
 
-            <button class="create-expense-btn" id="createExpense">Create Expense</button>
+            <button class="add-expense-btn" id="addExpense">Add Expense</button>
             
         </div>
 
