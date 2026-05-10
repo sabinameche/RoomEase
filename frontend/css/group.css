@@ -125,7 +125,9 @@ font-size:14px;
 
 .edit-btn, .delete-btn,.invite-btn {
     border-radius: 5px;
-    background-color: rgb(231, 229, 229);
+    background: #2e8b57;
+    border: 2px solid #2e8b57;
+    color: white;
     padding: 4px 10px;
     cursor: pointer;
 }

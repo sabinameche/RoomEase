@@ -55,7 +55,7 @@
 
 <div class="card-header">
 <h2>Expenses</h2>
-<a href="add-expense.html" class="primary-btn small">+ Add Expense</a>
+<button class="primary-btn small" id = "addExpense">+ Add Expense</button>
 </div>
 
 <div class="expense">
@@ -83,7 +83,7 @@
 <div id = "modalExpenseContainer"></div>
 
 <script>
-async function loadGroupModal() {
+async function loadModal() {
     const res = await fetch('../html/group_modal.html');
     const html = await res.text();
     document.getElementById('modalGroupContainer').innerHTML = html;
@@ -94,7 +94,7 @@ async function loadExpenseModal(){
     document.getElementById('modalExpenseContainer').innerHTML = html;
 }
 
-loadGroupModal();
+loadModal();
 loadExpenseModal();
 </script>
 
