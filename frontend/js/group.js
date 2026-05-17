@@ -78,11 +78,14 @@ document.addEventListener("DOMContentLoaded", async function(){
     });
 
     // Modal background click
-    modal.addEventListener('click', (e) => {
+    if(modal){
+        modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             closeModal();
         }
     });
+    }
+    
 });
 
 function openModal(mode = 'create') {

@@ -12,10 +12,11 @@ class GroupMemberView(APIView):
     def get(self,request,id=False):
         if id:
             group = Group.objects.filter(id=id,is_deleted= False).first()
-            member = GroupMember.objects.get(group=group,is_deleted = False)
-            serializer = GroupMemberSerializer(member)
-            
-        members = GroupMember.objects.filter(is_deleted = False)
+
+            members = GroupMember.objects.filter(group=group,is_deleted = False)
+          
+        else:    
+            members = GroupMember.objects.filter(is_deleted = False)
         serializer = GroupMemberSerializer(members,many=True)
 
         return Response({"success":True,"data":serializer.data})
