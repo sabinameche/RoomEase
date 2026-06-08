@@ -36,7 +36,7 @@
                 </div>
                 <div id = 'paid-by'>
                 <label>Paid by</label>
-                <select class = 'paid-by-list'>
+                <select class = 'paid-by-list' id = 'paid_by_list'>
                     <!-- dynamically add the options -->
                     <option class = 'paid-by-member'></option>
                 </select>
@@ -55,14 +55,12 @@
                     
                     <div id = 'select-participants'>
                     <label>Select Participants</label>
-                    <select>
-                        <option>Bina</option>
-                    </select>
+                    <div class="participants-list"></div>
                     </div>
                 
             </div>
 
-            <button class="add-expense-btn" id="addExpense">Add Expense</button>
+            <button class="add-expense-btn" id="createExpense">Add Expense</button>
             
         </div>
 
