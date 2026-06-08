@@ -47,7 +47,6 @@ class AcceptInvite(APIView):
         if not user:
             return HttpResponseRedirect("http://127.0.0.1:5501/RoomEase/frontend/html/register.html?email={invite.email}")
         GroupMember.objects.create(user=user,group=invite.group,role="member")
-        print("user ho haii",user)
         invite.status = "accepted"
         invite.save()
         

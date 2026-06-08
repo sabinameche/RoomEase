@@ -16,7 +16,6 @@ class ExpenseSerializer(ModelSerializer):
         amount = data.get("amount")
         paid_by = data.get("paid_by")
         
-
         # check if list is empty
         if not participants:
             raise serializers.ValidationError("Pariticipants list cannot be empty.")
