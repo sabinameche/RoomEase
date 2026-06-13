@@ -131,3 +131,10 @@ font-size:14px;
     padding: 4px 10px;
     cursor: pointer;
 }
+
+/*  for expense row */
+.expense-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
