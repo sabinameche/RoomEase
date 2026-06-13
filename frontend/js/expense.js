@@ -152,3 +152,62 @@ async function createExpense(paidBy ){
     }
     
 }
+
+export async function displayExpense(){
+    console.log('display hudae xa ki xaina ')
+    const accessToken = localStorage.getItem("access_token")
+    const params = new URLSearchParams(window.location.search);
+    const groupId = params.get("id")
+
+    try{
+
+    const response = await fetch(`http://127.0.0.1:8000/api/expense/${groupId}/`,{
+        method: "GET",
+        headers: {
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${accessToken}`
+        }
+
+    }),
+    
+        res =  await response.json()
+        if(response.ok){
+
+            const expenseList = document.getElementById("expense-list");
+            expenseList.innerHTML = "";
+
+            res.data.forEach(expense => {
+
+                const expenseDiv = document.createElement('div');
+                const expenseTDiv = document.createElement('div');
+                const expenseH = document.createElement('h3')
+                expenseH.textContent = expense.title
+                const expenseP = document.createElement('p');
+                expenseP.textContent = `Paid by ${expense.user_name}`
+                const expenseSpan = document.createElement('span')
+                expenseSpan.innerHTML = expense.amount
+                
+                expenseDiv.appendChild(expenseH)
+                expenseDiv.appendChild(expenseP)
+                expenseTDiv.appendChild(expenseSpan)
+                expenseList.appendChild(expenseDiv)
+                expenseList.appendChild(expenseTDiv)
+
+                const row = document.createElement("div");
+                row.classList.add("expense-row");
+
+                row.appendChild(expenseDiv);
+                row.appendChild(expenseTDiv);
+
+                expenseList.appendChild(row);
+
+            });
+            
+
+
+        }
+    }catch(error){
+        ShowAlert("Something went wrong")
+    }
+
+}

@@ -5,10 +5,11 @@ from decimal import Decimal
 
 class ExpenseSerializer(ModelSerializer):
     participants = serializers.ListField(child = serializers.IntegerField(),write_only = True)
-
+    user_name = serializers.CharField(source = "paid_by.username")
     class Meta:
         model = Expense
-        fields = ["group","title","amount","paid_by","participants"]
+        fields = ["group","title","amount","paid_by","participants","user_name"]
+        read_only_field = ["user_name"]
     
     def validate(self,data):
         group = data.get("group")

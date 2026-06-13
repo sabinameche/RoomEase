@@ -12,7 +12,7 @@ class ExpenseView(APIView):
         expenses = Expense.objects.filter(group = group)
         serializer = ExpenseSerializer(expenses,many = True)
         
-        return Response({"success":True,"data":serializer.data})
+        return Response({"success":True,"data":serializer.data},status=status.HTTP_200_OK)
         
 
 
