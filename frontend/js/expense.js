@@ -95,10 +95,12 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     let selectpaidById = null
     // id for selected paid_by user
+    if(paid_by_member){
         paid_by_member.addEventListener('change',(e) =>{
             selectpaidById = e.target.value;
 
         })
+    }
     
     const expenseCreate = document.getElementById('createExpense');
     expenseCreate.addEventListener('click',()=>{
