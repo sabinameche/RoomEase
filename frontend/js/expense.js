@@ -95,11 +95,12 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     let selectpaidById = null
     // id for selected paid_by user
+    if(paid_by_member){
         paid_by_member.addEventListener('change',(e) =>{
-            console.log(paid_by_member)
             selectpaidById = e.target.value;
 
         })
+    }
     
     const expenseCreate = document.getElementById('createExpense');
     expenseCreate.addEventListener('click',()=>{
@@ -118,8 +119,9 @@ async function createExpense(paidBy ){
     
     const checkedParticipants = document.querySelectorAll('.participant-checkbox:checked')
     const participantsIds = Array.from(checkedParticipants).map(user=>user.value)
+    const expenseCategory = document.getElementById("expenseCategory").value
 
-    console.log(expenseTitle,expenseAmount,groupId,paidBy,participantsIds)
+    console.log(expenseTitle,expenseAmount,groupId,paidBy,participantsIds,expenseCategory)
     try{
         const response = await fetch(`http://127.0.0.1:8000/api/expense/${groupId}/`,{
         method: "POST",
@@ -132,7 +134,8 @@ async function createExpense(paidBy ){
             title:expenseTitle,
             amount:expenseAmount,
             paid_by:Number(paidBy),
-            participants:participantsIds || []
+            participants:participantsIds || [],
+            category:expenseCategory
 
         })
         

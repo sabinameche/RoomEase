@@ -53,6 +53,15 @@ class Expense(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     paid_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    CATEGORY_CHOICES = {
+        "GROCERIES" :"Groceries",
+        "RENT": "Rent",
+        "UTILITIES":"Utilites",
+        "INTERNET":"Internet",
+        "TRANSPORT":"Transport",
+        "OTHER":"Other",
+    }
+    category = models.CharField(max_length= 20,choices=CATEGORY_CHOICES,default="")
 
 
 class ExpenseSplit(models.Model):
