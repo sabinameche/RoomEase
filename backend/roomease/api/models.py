@@ -61,7 +61,7 @@ class Expense(models.Model):
         "TRANSPORT":"Transport",
         "OTHER":"Other",
     }
-    category = models.CharField(max_length= 20,choices=CATEGORY_CHOICES,default="GROCERIES")
+    category = models.CharField(max_length= 20,choices=CATEGORY_CHOICES,default="")
 
 
 class ExpenseSplit(models.Model):
