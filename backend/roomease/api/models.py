@@ -48,11 +48,13 @@ class GroupInvite(models.Model):
         return f"Invite to {self.group.name} - {self.email}"
     
 class Expense(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE,related_name="expense_group")
     title = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    paid_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    paid_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="paid_by_user")
+    participants = models.JSONField(default=list,blank = True)
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(CustomUser,on_delete =  models.PROTECT,related_name='created_by_user')
     CATEGORY_CHOICES = {
         "GROCERIES" :"Groceries",
         "RENT": "Rent",
@@ -62,6 +64,7 @@ class Expense(models.Model):
         "OTHER":"Other",
     }
     category = models.CharField(max_length= 20,choices=CATEGORY_CHOICES,default="")
+    is_deleted = models.BooleanField(default=False)
 
 
 class ExpenseSplit(models.Model):
