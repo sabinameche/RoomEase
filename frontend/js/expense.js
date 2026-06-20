@@ -188,8 +188,8 @@ export async function displayExpense(){
                 const expenseP = document.createElement('p');
                 expenseP.textContent = `Paid by ${expense.user_name}`
                 const expenseSpan = document.createElement('span')
-                expenseSpan.innerHTML = expense.amount
-                
+                expenseSpan.innerHTML = `${expense.amount}<i>fas fa-edit</i>`
+                             
                 expenseDiv.appendChild(expenseH)
                 expenseDiv.appendChild(expenseP)
                 expenseTDiv.appendChild(expenseSpan)

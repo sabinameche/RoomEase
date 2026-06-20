@@ -22,6 +22,7 @@ class ExpenseView(APIView):
         print('value aayo data',data)
         
         data["group"] = id
+        data['created_by'] = request.user.id
         print('data aba',data)
         serializer = ExpenseSerializer(data = data)
 
@@ -30,3 +31,28 @@ class ExpenseView(APIView):
             serializer.save()
             return Response({"success":True,"data":serializer.data},status= status.HTTP_201_CREATED)
         return Response({"success":False,"errors":serializer.errors}, status= status.HTTP_400_BAD_REQUEST)
+    
+    
+    def patch(self,request,id):
+        expense = Expense.objects.get(id= id)
+        if request.user == expense.created_by or request.user == expense.expense_group.user:
+        
+            serializer = ExpenseSerializer(expense,data = request.data,partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'success':True,'message':'Expense updated successfully','data':serializer.data},
+                                status=status.HTTP_200_OK)
+            return Response({'success':False,
+                            'error':serializer.errors,
+                            },status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'success':False,"error":"You're not authorized to update"},status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self,request,id):
+        expense = Expense.objects.get(id=id)
+        if request.user == expense.created_by or request.user == expense.expense_group.user:
+            expense.is_deleted = True
+            expense.save()
+            return Response({'success':True,'message':'Expense deleted successfully'},status=status.HTTP_200_OK)
+        return Response({'success':False,'message':"You're not authorized to delete!"},status=status.HTTP_401_UNAUTHORIZED)
+        
