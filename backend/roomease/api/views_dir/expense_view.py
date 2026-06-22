@@ -7,10 +7,14 @@ from decimal import Decimal
 from rest_framework import status
 
 class ExpenseView(APIView):
-    def get(self,request,id):
-        group = Group.objects.get(id =id)
-        expenses = Expense.objects.filter(group = group)
-        serializer = ExpenseSerializer(expenses,many = True)
+    def get(self,request,expense,id):
+        if expense == 'total':
+            group = Group.objects.get(id =id)
+            expenses = Expense.objects.filter(group = group,is_deleted = False)
+            serializer = ExpenseSerializer(expenses,many = True)
+        elif expense == 'single':
+            expenses = Expense.objects.get(id = id)
+            serializer = ExpenseSerializer(expenses)
         
         return Response({"success":True,"data":serializer.data},status=status.HTTP_200_OK)
         
@@ -34,8 +38,10 @@ class ExpenseView(APIView):
     
     
     def patch(self,request,id):
+    
         expense = Expense.objects.get(id= id)
         if request.user == expense.created_by or request.user == expense.expense_group.user:
+            print('data aako k k xa tw yaa heram haii tw',request.data)
         
             serializer = ExpenseSerializer(expense,data = request.data,partial=True)
             if serializer.is_valid():

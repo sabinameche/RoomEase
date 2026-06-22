@@ -67,7 +67,8 @@ gap: 10px;
     font-size: 14px;
 }
 
-.add-expense-btn{
+.add-expense-btn,
+.edit-expense-btn{
     margin-top: 10px;
     padding: 12px;
     background: #2e8b57;

@@ -3,7 +3,10 @@ document.addEventListener('DOMContentLoaded',() =>{
     // open expense modal
         const addExpense = document.getElementById('addExpense');
         addExpense.addEventListener('click',()=>{
-
+            document.getElementById('expense-header-title').innerText = 'Create Expense'
+            document.getElementById('select-participants').style.display = 'flex';
+            document.getElementById('createExpense').style.display = 'flex';
+            document.getElementById('editExpense').style.display = 'none';
             openExpense()
         })
 
@@ -102,10 +105,14 @@ document.addEventListener('DOMContentLoaded',()=>{
         })
     }
     
+    // creating new expense
     const expenseCreate = document.getElementById('createExpense');
-    expenseCreate.addEventListener('click',()=>{
+    if(expenseCreate){
+        expenseCreate.addEventListener('click',()=>{
         createExpense(selectpaidById)
     })
+    }
+
 })
 
 
@@ -145,6 +152,7 @@ async function createExpense(paidBy ){
     console.log(res,'aaudae xa kun res yaa ani res ma xa chai k tw')
     if(response.ok){
         ShowAlert("Expense created successfully!")
+        document.getElementById('expenseModal').style.display = 'none';
         
     }
     else{
@@ -157,14 +165,13 @@ async function createExpense(paidBy ){
 }
 
 export async function displayExpense(){
-    console.log('display hudae xa ki xaina ')
     const accessToken = localStorage.getItem("access_token")
     const params = new URLSearchParams(window.location.search);
     const groupId = params.get("id")
 
     try{
 
-    const response = await fetch(`http://127.0.0.1:8000/api/expense/${groupId}/`,{
+    const response = await fetch(`http://127.0.0.1:8000/api/expense/total/${groupId}/`,{
         method: "GET",
         headers: {
             "Content-Type":"application/json",
@@ -180,7 +187,7 @@ export async function displayExpense(){
             expenseList.innerHTML = "";
 
             res.data.forEach(expense => {
-
+    
                 const expenseDiv = document.createElement('div');
                 const expenseTDiv = document.createElement('div');
                 const expenseH = document.createElement('h3')
@@ -188,20 +195,18 @@ export async function displayExpense(){
                 const expenseP = document.createElement('p');
                 expenseP.textContent = `Paid by ${expense.user_name}`
                 const expenseSpan = document.createElement('span')
-                expenseSpan.innerHTML = `${expense.amount}<i>fas fa-edit</i>`
+                expenseSpan.innerHTML = `${expense.amount} <button data-id = "${expense.id}" class = 'edit-expense'>edit</button> <button data-id= "${expense.id}" class='delete-expense' >delete</button>`
                              
                 expenseDiv.appendChild(expenseH)
                 expenseDiv.appendChild(expenseP)
                 expenseTDiv.appendChild(expenseSpan)
-                expenseList.appendChild(expenseDiv)
-                expenseList.appendChild(expenseTDiv)
 
                 const row = document.createElement("div");
                 row.classList.add("expense-row");
 
                 row.appendChild(expenseDiv);
                 row.appendChild(expenseTDiv);
-
+                
                 expenseList.appendChild(row);
 
             });
@@ -213,4 +218,106 @@ export async function displayExpense(){
         ShowAlert("Something went wrong")
     }
 
+}
+
+let expenseId = null
+document.addEventListener('click',(e)=>{
+    const target = e.target
+    
+    if(target.classList.contains('edit-expense')){
+        expenseId = target.dataset.id
+        
+        document.getElementById('expense-header-title').innerText = 'Edit Expense'
+        document.getElementById('select-participants').style.display = 'none';
+        document.getElementById('createExpense').style.display = 'none';
+        document.getElementById('editExpense').style.display = 'flex';
+        openExpense();
+        fillExpenseForm(expenseId)
+    } 
+
+    // editing expense
+    if(target.classList.contains('edit-expense-btn')){
+      
+        editExpense(expenseId)
+    }
+
+    // deleting expense
+    if(target.classList.contains('delete-expense')){
+        const id = target.dataset.id
+        console.log('yaa value xaina rw kina po',id)
+        deleteExpense(id)
+    }
+})
+
+async function fillExpenseForm(id){
+    const response = await fetch(`http://127.0.0.1:8000/api/expense/single/${id}/`,{
+        method:"GET",
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    )
+    const res = await response.json()
+    document.getElementById('expense-name').value = res.data.title
+    document.getElementById('expense-amount').value = res.data.amount
+    document.getElementById('expenseCategory').value = res.data.category
+    document.getElementById('paid_by_list').value = res.data.paid_by
+    
+}
+
+
+// edit  expense
+async function editExpense(expenseId){
+    const accessToken = localStorage.getItem('access_token')
+    const titleInput = document.getElementById('expense-name').value
+    const amountInput = document.getElementById('expense-amount').value
+    const categoryInput = document.getElementById('expenseCategory').value
+    const paidByInput = document.getElementById('paid_by_list').value
+    // const splitInput = document.getElementById('split-amount').value
+
+    try{
+        const res = await fetch(`http://127.0.0.1:8000/api/expense/${expenseId}/`,{
+            method:"PATCH",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${accessToken}`
+            },
+            body:JSON.stringify({
+                title:titleInput,
+                amount:amountInput,
+                paid_by:paidByInput,
+                category:categoryInput
+            })
+        })
+
+        if(res.ok){
+            ShowAlert("Expense updated successfully!")
+            document.getElementById('expenseModal').style.display = 'none';
+        }
+
+    }catch(error){
+        ShowAlert("Something went wrong here!")
+    }
+}
+
+// delete expense
+async function deleteExpense(id){
+    console.log('lets see the id',id)
+    const accessToken = localStorage.getItem('access_token');
+    try{
+        const response = await fetch(`http://127.0.0.1:8000/api/expense/${id}/`,{
+        method:"DELETE",
+        headers:{
+            "Authorization":`Bearer ${accessToken}`
+        }
+    })
+    if(response.ok){
+        ShowAlert("Expense deleted successfully!")
+        
+    }
+
+    }catch(error){
+        ShowAlert("Something went wrong while deleting the expense!")
+    }
+    
 }

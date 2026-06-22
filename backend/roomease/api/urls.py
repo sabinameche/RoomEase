@@ -17,5 +17,6 @@ urlpatterns = [
         path('group_member/',views.GroupMemberView.as_view()),
         path('group_member/<int:id>/',views.GroupMemberView.as_view()),
 
+        path('expense/<str:expense>/<int:id>/',views.ExpenseView.as_view()),
         path('expense/<int:id>/',views.ExpenseView.as_view()),
 ]
