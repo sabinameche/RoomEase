@@ -7,7 +7,8 @@ class ExpenseSerializer(ModelSerializer):
     user_name = serializers.CharField(source = "paid_by.username",read_only = True)
     class Meta:
         model = Expense
-        fields = ["group","title","amount","paid_by","participants","user_name","category","created_by"]
+        read_only_fields = ["id"]
+        fields = ["id","group","title","amount","paid_by","participants","user_name","category","created_by"]
         
     
     def validate(self,data):
