@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from django.db import transaction
 from decimal import Decimal
 from rest_framework import status
+from ..services.expense_split_services import ExpenseSplitService
 
 class ExpenseView(APIView):
     def get(self,request,expense,id):
@@ -40,12 +41,15 @@ class ExpenseView(APIView):
     def patch(self,request,id):
     
         expense = Expense.objects.get(id= id)
+        data = request.data
+        participants = data.pop("participants")
         if request.user == expense.created_by or request.user == expense.expense_group.user:
-            print('data aako k k xa tw yaa heram haii tw',request.data)
         
-            serializer = ExpenseSerializer(expense,data = request.data,partial=True)
+            serializer = ExpenseSerializer(expense,data = data,partial=True)
+
             if serializer.is_valid():
                 serializer.save()
+                ExpenseSplitService.create_expense_split(expense,participants,serializer.validated_data)
                 return Response({'success':True,'message':'Expense updated successfully','data':serializer.data},
                                 status=status.HTTP_200_OK)
             return Response({'success':False,
