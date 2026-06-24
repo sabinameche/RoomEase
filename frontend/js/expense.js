@@ -75,6 +75,7 @@ async function openExpense(){
 
             const label = document.createElement('label');
             label.textContent = member.username;
+
             wrapper.appendChild(checkbox);
             wrapper.appendChild(label);
 
@@ -123,12 +124,19 @@ async function createExpense(paidBy ){
     const groupId = params.get("id")
     const expenseTitle = document.getElementById("expense-name").value;
     const expenseAmount = document.getElementById("expense-amount").value;
-    
-    const checkedParticipants = document.querySelectorAll('.participant-checkbox:checked')
-    const participantsIds = Array.from(checkedParticipants).map(user=>user.value)
-    const expenseCategory = document.getElementById("expenseCategory").value
 
-    console.log(expenseTitle,expenseAmount,groupId,paidBy,participantsIds,expenseCategory)
+    const expenseCategory = document.getElementById("expenseCategory").value;
+
+    const splitType = document.getElementById('split-amount').value;
+    const participants = {}
+    if(splitType == "EQUAL"){
+        const checkedParticipants = document.querySelectorAll('.participant-checkbox:checked')
+        checkedParticipants.forEach(user=>{
+            participants[user.value] = 0
+        })
+    }
+
+
     try{
         const response = await fetch(`http://127.0.0.1:8000/api/expense/${groupId}/`,{
         method: "POST",
@@ -141,15 +149,17 @@ async function createExpense(paidBy ){
             title:expenseTitle,
             amount:expenseAmount,
             paid_by:Number(paidBy),
-            participants:participantsIds || [],
-            category:expenseCategory
+            participants:participants || 
+            {},
+            category:expenseCategory,
+            split_type:splitType
 
         })
         
     });
 
     const res = await response.json();
-    console.log(res,'aaudae xa kun res yaa ani res ma xa chai k tw')
+    
     if(response.ok){
         ShowAlert("Expense created successfully!")
         document.getElementById('expenseModal').style.display = 'none';

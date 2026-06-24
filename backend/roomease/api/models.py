@@ -52,7 +52,6 @@ class Expense(models.Model):
     title = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     paid_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="paid_by_user")
-    participants = models.JSONField(default=list,blank = True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(CustomUser,on_delete =  models.PROTECT,related_name='created_by_user')
     CATEGORY_CHOICES = {
@@ -64,6 +63,12 @@ class Expense(models.Model):
         "OTHER":"Other",
     }
     category = models.CharField(max_length= 20,choices=CATEGORY_CHOICES,default="")
+    SPLIT_CHOICES={
+        "EQUAL":"Equal",
+        "PERCENTAGE":"Percentage",
+        "EXACT":"Exact"
+    }
+    split_type = models.CharField(max_length= 20,choices=SPLIT_CHOICES,default="EQUAL")
     is_deleted = models.BooleanField(default=False)
 
 

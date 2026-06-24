@@ -23,7 +23,7 @@ class GroupMemberAdmin(ModelAdmin):
 
 @admin.register(Expense)
 class ExpenseAdmin(ModelAdmin):
-    list_display = ('id','group','title','amount','paid_by','created_at','category','participants','created_by')
+    list_display = ('id','group','title','amount','paid_by','created_at','category','created_by')
 
 @admin.register(ExpenseSplit)
 class ExpenseSplitAdmin(ModelAdmin):

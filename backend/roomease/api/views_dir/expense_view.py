@@ -10,7 +10,7 @@ class ExpenseView(APIView):
     def get(self,request,expense,id):
         if expense == 'total':
             group = Group.objects.get(id =id)
-            expenses = Expense.objects.filter(group = group,is_deleted = False)
+            expenses = Expense.objects.filter(group = group,is_deleted = False).order_by("-created_at")
             serializer = ExpenseSerializer(expenses,many = True)
         elif expense == 'single':
             expenses = Expense.objects.get(id = id)
@@ -27,7 +27,7 @@ class ExpenseView(APIView):
         
         data["group"] = id
         data['created_by'] = request.user.id
-        print('data aba',data)
+    
         serializer = ExpenseSerializer(data = data)
 
         if serializer.is_valid():
