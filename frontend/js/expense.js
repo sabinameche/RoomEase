@@ -76,13 +76,23 @@ async function openExpense(){
             const label = document.createElement('label');
             label.textContent = member.username;
 
+            const amount_input = document.createElement('input');
+            amount_input.classList.add('amount-per-user')
+            amount_input.type = "number";
+            amount_input.placeholder = "Enter value";
+            amount_input.dataset.id = member.user_id;
+            amount_input.style.display = 'none'
+
+
             wrapper.appendChild(checkbox);
             wrapper.appendChild(label);
+            wrapper.appendChild(amount_input)
 
             participants.appendChild(wrapper);
                 });
             }
     document.getElementById('expenseModal').style.display = 'flex';
+    
 }catch(error){
         ShowAlert("Something went wrong");
         console.log(error)
@@ -114,6 +124,26 @@ document.addEventListener('DOMContentLoaded',()=>{
     })
     }
 
+    // for splitType when clicked shows the input labels
+    const split = document.getElementById('split-amount')
+    if(split){
+        split.addEventListener('change',(e)=>{
+
+        const splitType = e.target.value
+        if(splitType == "EQUAL"){
+            document.querySelectorAll('.amount-per-user').forEach(input =>{
+                input.style.display = 'none';
+            })
+        
+        }
+        else{
+            document.querySelectorAll('.amount-per-user').forEach(input =>{
+                input.style.display = 'block';
+            })
+        }
+    })
+    }
+    
 })
 
 
@@ -129,13 +159,23 @@ async function createExpense(paidBy ){
 
     const splitType = document.getElementById('split-amount').value;
     const participants = {}
+
     if(splitType == "EQUAL"){
         const checkedParticipants = document.querySelectorAll('.participant-checkbox:checked')
         checkedParticipants.forEach(user=>{
             participants[user.value] = 0
         })
     }
+    
+    else if(splitType == "PERCENTAGE" || splitType == "EXACT"){
+        const checkedParticipants = document.querySelectorAll('.participant-checkbox:checked')
+        checkedParticipants.forEach(user=>{
+            const wrapper = user.parentElement;
+            const amountInput = wrapper.querySelector('.amount-per-user')
+            participants[user.value] = amountInput.value
 
+        })
+    }
 
     try{
         const response = await fetch(`http://127.0.0.1:8000/api/expense/${groupId}/`,{
