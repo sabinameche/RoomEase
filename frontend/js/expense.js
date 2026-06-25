@@ -139,6 +139,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 // splitType input 
 function updateSplitInput(splitType){
+
+    console.log('yo kina dekhayena')
     if(splitType == "EQUAL"){
             document.querySelectorAll('.amount-per-user').forEach(input =>{
                 input.style.display = 'none';
@@ -159,6 +161,7 @@ function sendparticipants(splitType){
     if(splitType == "EQUAL"){
         const checkedParticipants = document.querySelectorAll('.participant-checkbox:checked')
         checkedParticipants.forEach(user=>{
+            console.log('user ma k aauxa',user)
             participants[user.value] = 0
         })
     }
@@ -168,7 +171,7 @@ function sendparticipants(splitType){
         checkedParticipants.forEach(user=>{
             const wrapper = user.parentElement;
             const amountInput = wrapper.querySelector('.amount-per-user')
-            participants[user.value] = amountInput.value
+            participants[user.value] = Number(amountInput.value)
 
         })
     }
@@ -352,6 +355,7 @@ async function editExpense(expenseId){
                 amount:amountInput,
                 paid_by:paidByInput,
                 category:categoryInput,
+                split_type:splitTypeInput,
                 participants:participants || {}
             })
         })

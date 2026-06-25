@@ -7,9 +7,8 @@ from decimal import Decimal
 
 class ExpenseSplitService:
 
-    def create_expense_split(expense,participants,validated_data):
-    
-        split_type = validated_data.get('split_type')
+    def create_expense_split(expense,participants,split_type,total_amount):
+        
         if split_type == "EQUAL":
             for user_id in participants:
                 print('ma loop ma xu??')
@@ -32,7 +31,7 @@ class ExpenseSplitService:
 
         elif split_type == "EXACT":
             sum_amount = sum(participants.values())
-            total_amount = validated_data.get('amount')
+        
             if sum_amount == total_amount:
                 raise serializers.ValidationError("Total amount should be equal to the sum of amount!")
             
@@ -41,7 +40,8 @@ class ExpenseSplitService:
                 ExpenseSplit.objects.create(expense=expense,user=user,amount = Decimal(participants[user_id]))
        
 
-    def update_expense_split(expense,participants,validated_data):
+    def update_expense_split(expense,participants,split_type,total_amount):
        
         ExpenseSplit.objects.filter(expense = expense).delete()
-        ExpenseSplitService.create_expense_split(expense,participants,validated_data)
+        print('feri delete vara create chai kina navako k')
+        ExpenseSplitService.create_expense_split(expense,participants,split_type,total_amount)
