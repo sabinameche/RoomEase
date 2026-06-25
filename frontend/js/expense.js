@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     // creating new expense
     const expenseCreate = document.getElementById('createExpense');
     if(expenseCreate){
+        console.log('yo kina click hudaina')
         expenseCreate.addEventListener('click',()=>{
         createExpense(selectpaidById)
     })
@@ -129,23 +130,53 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(split){
         split.addEventListener('change',(e)=>{
 
-        const splitType = e.target.value
-        if(splitType == "EQUAL"){
-            document.querySelectorAll('.amount-per-user').forEach(input =>{
-                input.style.display = 'none';
-            })
+        updateSplitInput(e.target.value)
         
-        }
-        else{
-            document.querySelectorAll('.amount-per-user').forEach(input =>{
-                input.style.display = 'block';
-            })
-        }
     })
     }
     
 })
 
+// splitType input 
+function updateSplitInput(splitType){
+
+    console.log('yo kina dekhayena')
+    if(splitType == "EQUAL"){
+            document.querySelectorAll('.amount-per-user').forEach(input =>{
+                input.style.display = 'none';
+            })
+        
+        }
+    else if(splitType == "PERCENTAGE" || splitType == "EXACT"){
+            document.querySelectorAll('.amount-per-user').forEach(input =>{
+                input.style.display = 'block';
+            })
+        }
+}
+
+// sending participants dict
+function sendparticipants(splitType){
+    const participants = {}
+
+    if(splitType == "EQUAL"){
+        const checkedParticipants = document.querySelectorAll('.participant-checkbox:checked')
+        checkedParticipants.forEach(user=>{
+            console.log('user ma k aauxa',user)
+            participants[user.value] = 0
+        })
+    }
+    
+    else if(splitType == "PERCENTAGE" || splitType == "EXACT"){
+        const checkedParticipants = document.querySelectorAll('.participant-checkbox:checked')
+        checkedParticipants.forEach(user=>{
+            const wrapper = user.parentElement;
+            const amountInput = wrapper.querySelector('.amount-per-user')
+            participants[user.value] = Number(amountInput.value)
+
+        })
+    }
+    return participants
+}
 
 // create expense
 async function createExpense(paidBy ){
@@ -158,24 +189,9 @@ async function createExpense(paidBy ){
     const expenseCategory = document.getElementById("expenseCategory").value;
 
     const splitType = document.getElementById('split-amount').value;
-    const participants = {}
 
-    if(splitType == "EQUAL"){
-        const checkedParticipants = document.querySelectorAll('.participant-checkbox:checked')
-        checkedParticipants.forEach(user=>{
-            participants[user.value] = 0
-        })
-    }
-    
-    else if(splitType == "PERCENTAGE" || splitType == "EXACT"){
-        const checkedParticipants = document.querySelectorAll('.participant-checkbox:checked')
-        checkedParticipants.forEach(user=>{
-            const wrapper = user.parentElement;
-            const amountInput = wrapper.querySelector('.amount-per-user')
-            participants[user.value] = amountInput.value
-
-        })
-    }
+    // sends participants dictionary
+    const participants = sendparticipants(splitType)
 
     try{
         const response = await fetch(`http://127.0.0.1:8000/api/expense/${groupId}/`,{
@@ -277,8 +293,7 @@ document.addEventListener('click',(e)=>{
     if(target.classList.contains('edit-expense')){
         expenseId = target.dataset.id
         
-        document.getElementById('expense-header-title').innerText = 'Edit Expense'
-        document.getElementById('select-participants').style.display = 'none';
+        document.getElementById('expense-header-title').innerText = 'Edit Expense';
         document.getElementById('createExpense').style.display = 'none';
         document.getElementById('editExpense').style.display = 'flex';
         openExpense();
@@ -312,6 +327,8 @@ async function fillExpenseForm(id){
     document.getElementById('expense-amount').value = res.data.amount
     document.getElementById('expenseCategory').value = res.data.category
     document.getElementById('paid_by_list').value = res.data.paid_by
+    document.getElementById('split-amount').value = res.data.split_type;
+    updateSplitInput(res.data.split_type)
     
 }
 
@@ -319,11 +336,12 @@ async function fillExpenseForm(id){
 // edit  expense
 async function editExpense(expenseId){
     const accessToken = localStorage.getItem('access_token')
-    const titleInput = document.getElementById('expense-name').value
-    const amountInput = document.getElementById('expense-amount').value
-    const categoryInput = document.getElementById('expenseCategory').value
-    const paidByInput = document.getElementById('paid_by_list').value
-    // const splitInput = document.getElementById('split-amount').value
+    const titleInput = document.getElementById('expense-name').value;
+    const amountInput = document.getElementById('expense-amount').value;
+    const categoryInput = document.getElementById('expenseCategory').value;
+    const paidByInput = document.getElementById('paid_by_list').value;
+    const splitTypeInput = document.getElementById('split-amount').value;
+    const participants = sendparticipants(splitTypeInput)
 
     try{
         const res = await fetch(`http://127.0.0.1:8000/api/expense/${expenseId}/`,{
@@ -336,7 +354,9 @@ async function editExpense(expenseId){
                 title:titleInput,
                 amount:amountInput,
                 paid_by:paidByInput,
-                category:categoryInput
+                category:categoryInput,
+                split_type:splitTypeInput,
+                participants:participants || {}
             })
         })
 

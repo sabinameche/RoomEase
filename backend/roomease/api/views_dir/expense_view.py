@@ -42,6 +42,8 @@ class ExpenseView(APIView):
     
         expense = Expense.objects.get(id= id)
         data = request.data
+        split_type = data.get("split_type")
+        total_amount = data.get("amount")
         participants = data.pop("participants")
         if request.user == expense.created_by or request.user == expense.expense_group.user:
         
@@ -49,7 +51,8 @@ class ExpenseView(APIView):
 
             if serializer.is_valid():
                 serializer.save()
-                ExpenseSplitService.create_expense_split(expense,participants,serializer.validated_data)
+                
+                ExpenseSplitService.update_expense_split(expense,participants,split_type,total_amount)
                 return Response({'success':True,'message':'Expense updated successfully','data':serializer.data},
                                 status=status.HTTP_200_OK)
             return Response({'success':False,
