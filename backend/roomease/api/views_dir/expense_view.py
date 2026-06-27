@@ -6,6 +6,7 @@ from django.db import transaction
 from decimal import Decimal
 from rest_framework import status
 from ..services.expense_split_services import ExpenseSplitService
+from ..services.expense_owned_services import ExpenseOwnedService
 
 class ExpenseView(APIView):
     def get(self,request,expense,id):
@@ -17,7 +18,8 @@ class ExpenseView(APIView):
             expenses = Expense.objects.get(id = id)
             serializer = ExpenseSerializer(expenses)
         
-        return Response({"success":True,"data":serializer.data},status=status.HTTP_200_OK)
+        expense_per_user = ExpenseOwnedService.expense_per_user(id)
+        return Response({"success":True,"data":serializer.data,"expense_per_user":expense_per_user},status=status.HTTP_200_OK)
         
 
 
