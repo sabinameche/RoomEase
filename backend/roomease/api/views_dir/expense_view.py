@@ -12,7 +12,7 @@ class ExpenseView(APIView):
     def get(self,request,expense,id):
         if expense == 'total':
             group = Group.objects.get(id =id)
-            expenses = Expense.objects.filter(group = group,is_deleted = False).order_by("-created_at")
+            expenses = Expense.objects.filter(group = group).order_by("-created_at")
             serializer = ExpenseSerializer(expenses,many = True)
         elif expense == 'single':
             expenses = Expense.objects.get(id = id)
@@ -66,8 +66,7 @@ class ExpenseView(APIView):
     def delete(self,request,id):
         expense = Expense.objects.get(id=id)
         if request.user == expense.created_by or request.user == expense.expense_group.user:
-            expense.is_deleted = True
-            expense.save()
+            expense.delete()
             return Response({'success':True,'message':'Expense deleted successfully'},status=status.HTTP_200_OK)
         return Response({'success':False,'message':"You're not authorized to delete!"},status=status.HTTP_401_UNAUTHORIZED)
         

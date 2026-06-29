@@ -69,10 +69,11 @@ class Expense(models.Model):
         "EXACT":"Exact"
     }
     split_type = models.CharField(max_length= 20,choices=SPLIT_CHOICES,default="EQUAL")
-    is_deleted = models.BooleanField(default=False)
+   
 
 
 class ExpenseSplit(models.Model):
     expense = models.ForeignKey(Expense, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    
