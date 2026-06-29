@@ -1,10 +1,10 @@
 import { ShowAlert } from "./utils.js";
-import { displayExpense } from "./expense.js";
+import { displayExpenseBalance } from "./expense.js";
 
 document.addEventListener("DOMContentLoaded", async function(){
     
     displayGroupDetail();
-    displayExpense();
+    displayExpenseBalance();
 
     const modal = document.getElementById('groupModal');
 

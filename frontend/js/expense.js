@@ -230,7 +230,9 @@ async function createExpense(paidBy ){
     
 }
 
-export async function displayExpense(){
+// this display particular group's expense list
+
+export async function displayExpenseBalance(){
     const accessToken = localStorage.getItem("access_token")
     const params = new URLSearchParams(window.location.search);
     const groupId = params.get("id")
@@ -247,8 +249,37 @@ export async function displayExpense(){
     }),
     
         res =  await response.json()
+        console.log('data kati dherai aako xa',res.expense_per_user)
         if(response.ok){
+            //list all the balance of the group member
+            const balanceList = document.getElementById('balance-container');
+            
+            res.expense_per_user.forEach(user =>{
+                
+                
+                const balance = document.createElement('div');
+                balance.classList.add('balance')
+                const userNameSpan = document.createElement('span');
+                const userBalance = document.createElement('span');
 
+                userNameSpan.textContent = user.name
+                
+                if(user.amount < 0){
+                    
+                    userBalance.classList.add('positive')
+                    userBalance.textContent = -(user.amount)
+                }else{
+                    
+                    userBalance.classList.add('negative')
+                    userBalance.textContent = -user.amount
+                }
+                
+                balance.appendChild(userNameSpan);
+                balance.appendChild(userBalance)
+                balanceList.appendChild(balance)
+
+            })
+            //list all the expenses of the group
             const expenseList = document.getElementById("expense-list");
             expenseList.innerHTML = "";
 
@@ -309,7 +340,7 @@ document.addEventListener('click',(e)=>{
     // deleting expense
     if(target.classList.contains('delete-expense')){
         const id = target.dataset.id
-        console.log('yaa value xaina rw kina po',id)
+        
         deleteExpense(id)
     }
 })
@@ -390,4 +421,9 @@ async function deleteExpense(id){
         ShowAlert("Something went wrong while deleting the expense!")
     }
     
+}
+
+// display balance of each group member
+function displyBalance(){
+
 }
