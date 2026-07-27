@@ -10,7 +10,7 @@ from django.db.models import Sum
 class ExpenseOwnedService:
     def expense_per_user(groupId):
         #calculate amount owes per user
-    
+        
         expense_split = ExpenseSplit.objects.filter(expense__group_id = groupId).values("user__username").annotate(total=Sum("amount"))
 
         #calculate amount paidby user

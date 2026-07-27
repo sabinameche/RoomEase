@@ -76,4 +76,8 @@ class ExpenseSplit(models.Model):
     expense = models.ForeignKey(Expense, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    
+
+class OwnedAmount(models.Model):
+    group = models.ForeignKey(Group,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)   
+    amount = models.DecimalField(max_digits=10,decimal_places=2) 
