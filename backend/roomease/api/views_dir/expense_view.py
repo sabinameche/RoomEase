@@ -10,16 +10,22 @@ from ..services.expense_owned_services import ExpenseOwnedService
 
 class ExpenseView(APIView):
     def get(self,request,expense,id):
-        if expense == 'total':
+        if expense == 'all':
             group = Group.objects.get(id =id)
             expenses = Expense.objects.filter(group = group).order_by("-created_at")
             serializer = ExpenseSerializer(expenses,many = True)
-        elif expense == 'single':
-            expenses = Expense.objects.get(id = id)
-            serializer = ExpenseSerializer(expenses)
+            expense_per_user = ExpenseOwnedService.expense_per_user(id)
+            return Response({"success":True,"data":serializer.data,"expense_per_user":expense_per_user},status=status.HTTP_200_OK)
         
-        expense_per_user = ExpenseOwnedService.expense_per_user(id)
-        return Response({"success":True,"data":serializer.data,"expense_per_user":expense_per_user},status=status.HTTP_200_OK)
+        elif expense == 'specific':
+            try:
+                expenses = Expense.objects.get(id = id)
+                serializer = ExpenseSerializer(expenses)
+        
+        
+                return Response({"success":True,"data":serializer.data},status=status.HTTP_200_OK)
+            except:
+                return Response({"success":False},status=status.HTTP_404_NOT_FOUND)
         
 
 
