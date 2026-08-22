@@ -32,7 +32,6 @@ class ExpenseView(APIView):
     @transaction.atomic
     def post(self,request,id):
         data = request.data.copy()
-        print('value aayo data',data)
         
         data["group"] = id
         data['created_by'] = request.user.id

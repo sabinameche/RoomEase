@@ -32,17 +32,17 @@ class ExpenseSerializer(ModelSerializer):
             
             # check if the id is correct
             if group is not None:
-                group_member_user_id = str(set(group.members.values_list("user_id", flat=True)))
+                group_member_user_ids = str(set(group.members.values_list("user_id", flat=True)))
             
                 for user_id in participants:
-                    if user_id not in group_member_user_id:
+                    if user_id not in group_member_user_ids:
                         raise serializers.ValidationError(
                             f"User {user_id} is not a member of this group."
                         )
                 
                 # check if paid_by in group 
-                if str(paid_by.id) not in group_member_user_id:
-                    raise serializers.ValidationError(f"User {paid_by.id}{group_member_user_id} is not a member of this group")
+                if str(paid_by.id) not in group_member_user_ids:
+                    raise serializers.ValidationError(f"User {paid_by.id}{group_member_user_ids} is not a member of this group")
 
             # #check the amount
             if amount is not None and amount <=0:
@@ -57,7 +57,8 @@ class ExpenseSerializer(ModelSerializer):
         total_amount = validated_data.get("amount")
         group = validated_data.get("group")
         expense = Expense.objects.create(**validated_data)
+        paid_by = validated_data.get("paid_by")
 
-        ExpenseSplitService.create_expense_split(expense,participants,split_type,total_amount,group)
+        ExpenseSplitService.create_expense_split(expense,participants,split_type,total_amount,group,paid_by)
         return expense
     

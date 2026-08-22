@@ -39,25 +39,27 @@ def send_group_invite_email(invite):
 
 class AcceptInvite(APIView):
 
-    renderer_classes = [JSONRenderer]
-    def get(self,request,token):
+    def post(self,request,token):
+
         invite = GroupInvite.objects.get(token=token)
         
         user = CustomUser.objects.filter(email = invite.email).first()
+
         if not user:
-            return HttpResponseRedirect("http://127.0.0.1:5501/RoomEase/frontend/html/register.html?email={invite.email}")
+            return HttpResponseRedirect("http://127.0.0.1:5501/RoomEase/frontend/html/register.html?invite={invite.token}")
+      
         GroupMember.objects.create(user=user,group=invite.group,role="member")
         invite.status = "accepted"
+
         invite.save()
         
 
-        return Response({"success":True})
+        return HttpResponseRedirect("http://127.0.0.1:5501/RoomEase/frontend/html/login.html?invite={invite.token}")
     
 
 class RejectInvite(APIView):
-    renderer_classes = [JSONRenderer]
 
-    def get(self,request,token):
+    def post(self,request,token):
         invite = GroupInvite.objects.get(token=token)
         invite.status = "rejected"
 

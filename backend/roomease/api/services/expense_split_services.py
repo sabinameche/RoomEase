@@ -7,8 +7,8 @@ from decimal import Decimal
 
 class ExpenseSplitService:
 
-    def create_expense_split(expense,participants,split_type,total_amount,group):
-    
+    def create_expense_split(expense,participants,split_type,total_amount,group,paid_by):
+        print('paid by ma k xa',paid_by.id)
         if split_type == "EQUAL":
             for user_id in participants:
                 user = CustomUser.objects.get(id = user_id)
@@ -22,6 +22,9 @@ class ExpenseSplitService:
                                                                                'amount' : 0})
                 owes.amount += expense_split.amount
                 owes.save()
+                if user_id == paid_by:
+                    owes.amount -= total_amount
+                    owes.save()
 
 
         elif split_type == "PERCENTAGE":
@@ -42,6 +45,11 @@ class ExpenseSplitService:
                                                                                'amount' : 0})
                 owes.amount += expense_split.amount
                 owes.save()
+                print('yaa chia xa?')
+                if user_id == paid_by.id:
+                    print("yaa xirdae xa ki xaina??")
+                    owes.amount -= total_amount
+                    owes.save()
 
         elif split_type == "EXACT":
             sum_amount = sum(participants.values())
@@ -60,10 +68,13 @@ class ExpenseSplitService:
                                                                                'amount' : 0})
                 owes.amount += expense_split.amount
                 owes.save()
+                if user_id == paid_by:
+                    owes.amount -= total_amount
+                    owes.save()
        
 
     def update_expense_split(expense,participants,split_type,total_amount):
        
         ExpenseSplit.objects.filter(expense = expense).delete()
-        print('feri delete vara create chai kina navako k')
+        
         ExpenseSplitService.create_expense_split(expense,participants,split_type,total_amount)
