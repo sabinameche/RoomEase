@@ -29,6 +29,14 @@ class GroupMember(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.group.name}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "group"],
+                name="unique_user_group"
+            )
+        ]
     
 class GroupInvite(models.Model):
     STATUS_CHOICES = (

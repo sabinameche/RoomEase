@@ -135,6 +135,13 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": f"redis://:{os.getenv("REDIS_PASSWORD")}@127.0.0.1:6379",
+    }
+}
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # SMTP server host
 EMAIL_PORT = 587  # SMTP server port (587 for TLS, 465 for SSL)

@@ -5,9 +5,10 @@ from ..serializers_dir.group_invite_serializer import GroupInviteSerializer
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from rest_framework.renderers import JSONRenderer
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
+import hashlib
+from django.core.cache import cache
 
 def send_group_invite_email(invite):
     accept_link = f"http://localhost:8000/api/invite/accept/{invite.token}/"
@@ -21,8 +22,7 @@ def send_group_invite_email(invite):
         Accept
         </a>
         <br><br>
-            <a href="{reject_link}" 
-            style="padding:10px 20px;background-color:red;color:white;text-decoration:none;border-radius:5px;">
+            <a href="{reject_link}"style = "padding:10px 20px;background-color:red;color:white;text-decoration:none;border-radius:5px;">
             Reject
             </a>
         """
@@ -39,33 +39,38 @@ def send_group_invite_email(invite):
 
 class AcceptInvite(APIView):
 
-    def post(self,request,token):
+    def get(self,request,token):
 
         invite = GroupInvite.objects.get(token=token)
         
         user = CustomUser.objects.filter(email = invite.email).first()
 
         if not user:
-            return HttpResponseRedirect("http://127.0.0.1:5501/RoomEase/frontend/html/register.html?invite={invite.token}")
-      
-        GroupMember.objects.create(user=user,group=invite.group,role="member")
-        invite.status = "accepted"
-
-        invite.save()
-        
-
-        return HttpResponseRedirect("http://127.0.0.1:5501/RoomEase/frontend/html/login.html?invite={invite.token}")
+            return HttpResponseRedirect(f"http://127.0.0.1:5501/RoomEase/frontend/html/register.html?invite={invite.token}")
+        else:
+            if invite.status == "accepted":
+                return HttpResponseRedirect(f"http://127.0.0.1:5501/RoomEase/frontend/html/login.html?invite={invite.token}")
+            else:
+                if invite.status == "rejected":
+                    return HttpResponse("Invitation has already been rejected.")
+                GroupMember.objects.get_or_create(user=user,group=invite.group,defaults={"user":user,"group":invite.group,"role":"member"})
+                invite.status = "accepted"
+                invite.save()
+            
+                return HttpResponseRedirect(f"http://127.0.0.1:5501/RoomEase/frontend/html/login.html?invite={invite.token}")
     
 
 class RejectInvite(APIView):
 
-    def post(self,request,token):
+    def get(self,request,token):
         invite = GroupInvite.objects.get(token=token)
-        invite.status = "rejected"
+        if invite.status == "accepted":
+            return HttpResponse("Invitation has already been accepted.")
+        else:
+            invite.status = "rejected"
+            invite.save()
 
-        invite.save()
-
-        return Response({"success":True})
+            return HttpResponse("Invitation has been rejected successfully.")
     
 
 class GroupInviteView(APIView):
