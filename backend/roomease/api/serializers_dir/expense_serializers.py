@@ -22,31 +22,26 @@ class ExpenseSerializer(ModelSerializer):
         paid_by = data.get("paid_by")
         
         # check if list is empty
-        if participants is not None:
-            if not participants:
-                raise serializers.ValidationError("Pariticipants list cannot be empty.")
+        if not participants:
+            raise serializers.ValidationError("Pariticipants list cannot be empty.")
             
-            # check if duplicate id
-            if len(participants) != len(set(participants)):
-                raise serializers.ValidationError("Duplicate Id is not allowed.")
-            
-            # check if the id is correct
-            if group is not None:
-                group_member_user_ids = str(set(group.members.values_list("user_id", flat=True)))
-            
-                for user_id in participants:
-                    if user_id not in group_member_user_ids:
-                        raise serializers.ValidationError(
-                            f"User {user_id} is not a member of this group."
-                        )
-                
-                # check if paid_by in group 
-                if str(paid_by.id) not in group_member_user_ids:
-                    raise serializers.ValidationError(f"User {paid_by.id}{group_member_user_ids} is not a member of this group")
-
-            # #check the amount
-            if amount is not None and amount <=0:
-                raise serializers.ValidationError("The amount must be greater than 0")
+        # ceck if the id is correct
+        group_member_user_ids = group.members.values_list("user_id", flat=True)
+    
+        for user_id in participants:
+        
+            if int(user_id) not in group_member_user_ids:
+                raise serializers.ValidationError(
+                    f"User {user_id} is not a member of this group."
+                )
+        
+        # check if paid_by in group
+       
+        if paid_by.id not in group_member_user_ids:
+                raise serializers.ValidationError(f"User {paid_by.id}{group_member_user_ids} is not a member of thisgroup")
+        # #check the amount
+        if amount is not None and amount <=0:
+            raise serializers.ValidationError("The amount must be greater than 0")
             
         
         return data
@@ -54,11 +49,8 @@ class ExpenseSerializer(ModelSerializer):
     def create(self,validated_data):
         participants = validated_data.pop("participants")
         split_type = validated_data.get("split_type")
-        total_amount = validated_data.get("amount")
-        group = validated_data.get("group")
         expense = Expense.objects.create(**validated_data)
-        paid_by = validated_data.get("paid_by")
 
-        ExpenseSplitService.create_expense_split(expense,participants,split_type,total_amount,group,paid_by)
+        ExpenseSplitService.create_expense_split(expense,participants,split_type)
         return expense
     
