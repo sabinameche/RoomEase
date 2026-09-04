@@ -1,69 +1,76 @@
-from rest_framework.views import APIView
-from rest_framework import serializers
-from ..serializers_dir.expenseSplit_serializer import ExpenseSplitSerializer
-from ..models import Group,ExpenseSplit,CustomUser,Expense,OwnedAmount
-from rest_framework.response import Response
+from ..models import ExpenseSplit,CustomUser,Expense,OwnedAmount
 from decimal import Decimal
 
 class ExpenseSplitService:
 
-    def create_expense_split(expense,participants,split_type,total_amount,group):
-    
+    def create_expense_split(expense,participants,split_type):
+
         if split_type == "EQUAL":
             for user_id in participants:
-                user = CustomUser.objects.get(id = user_id)
 
-                expense_split = ExpenseSplit.objects.create(expense = expense,user=user,amount = Decimal(expense.amount)/Decimal(len(participants)))
+                expense_split = ExpenseSplit.objects.create(expense = expense,user_id=user_id,amount = Decimal(expense.amount)/Decimal(len(participants)))
 
-                # calculating user's total owed money
-                owes,created = OwnedAmount.objects.get_or_create(group = group,user = user,
-                                                                     defaults={'group' :group,
-                                                                               'user': user,
-                                                                               'amount' : 0})
-                owes.amount += expense_split.amount
-                owes.save()
+                # # calculating user's total owed money
+                # owes,created = OwnedAmount.objects.get_or_create(group = group,user = user,
+                #                                                      defaults={'group' :group,
+                #                                                                'user': user,
+                #                                                                'amount' : 0})
+                # owes.amount += expense_split.amount
+                # owes.save()
+                
+                # if user_id == paid_by:
+                #     owes.amount -= total_amount
+                #     owes.save()
 
 
         elif split_type == "PERCENTAGE":
             total_percentage = sum(participants.values())
         
             if total_percentage !=100:
-                raise serializers.ValidationError("Percentage should be equal to 100")
+                raise ValueError("Percentage should be equal to 100")
             
             for user_id in participants:
     
-                user = CustomUser.objects.get(id=int(user_id))
-
-                expense_split = ExpenseSplit.objects.create(expense = expense,user=user,amount=(Decimal(participants[user_id]) * Decimal(expense.amount))/Decimal(100))
+                expense_split = ExpenseSplit.objects.create(expense = expense,user_id=user_id,amount=(Decimal(participants[user_id]) * Decimal(expense.amount))/Decimal(100))
+                
                 # calculating user's total owed money
-                owes,created = OwnedAmount.objects.get_or_create(group = group,user = user,
-                                                                     defaults={'group' :group,
-                                                                               'user': user,
-                                                                               'amount' : 0})
-                owes.amount += expense_split.amount
-                owes.save()
+                # owes,created = OwnedAmount.objects.get_or_create(group = group,user = user,
+                #                                                      defaults={'group' :group,
+                #                                                                'user': user,
+                #                                                                'amount' : 0})
+                # owes.amount += expense_split.amount
+                # owes.save()
+                
+                # if int(user_id) == paid_by.id:
+
+                #     owes = OwnedAmount.objects.get(group = group,user = paid_by.id)
+                #     owes.amount -= total_amount
+                #     owes.save()
 
         elif split_type == "EXACT":
             sum_amount = sum(participants.values())
-        
-            if sum_amount == total_amount:
-                raise serializers.ValidationError("Total amount should be equal to the sum of amount!")
+            
+            if sum_amount != expense.amount:
+                raise ValueError("Total amount should be equal to the sum of amount!")
             
             for user_id in participants:
-                user = CustomUser.objects.get(id = user_id)
-                expense_split = ExpenseSplit.objects.create(expense=expense,user=user,amount = Decimal(participants[user_id]))
+              
+                expense_split = ExpenseSplit.objects.create(expense=expense,user_id=user_id,amount = Decimal(participants[user_id]))
 
                 # calculating user's total owed money
-                owes,created = OwnedAmount.objects.get_or_create(group = group,user = user,
-                                                                     defaults={'group' :group,
-                                                                               'user': user,
-                                                                               'amount' : 0})
-                owes.amount += expense_split.amount
-                owes.save()
+                # owes,created = OwnedAmount.objects.get_or_create(group = group,user = user,
+                #                                                      defaults={'group' :group,
+                #                                                                'user': user,
+                #                                                                'amount' : 0})
+                # owes.amount += expense_split.amount
+                # owes.save()
+                # if user_id == paid_by:
+                #     owes.amount -= total_amount
+                #     owes.save()
        
 
-    def update_expense_split(expense,participants,split_type,total_amount):
+    def update_expense_split(expense,participants,split_type):
        
         ExpenseSplit.objects.filter(expense = expense).delete()
-        print('feri delete vara create chai kina navako k')
-        ExpenseSplitService.create_expense_split(expense,participants,split_type,total_amount)
+        
+        ExpenseSplitService.create_expense_split(expense,participants,split_type)
