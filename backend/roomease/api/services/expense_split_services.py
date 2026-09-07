@@ -3,13 +3,13 @@ from decimal import Decimal
 
 class ExpenseSplitService:
 
-    def create_expense_split(expense,participants,split_type):
+    def create_expense_split(expense,participants,split_type,paid_by):
 
         if split_type == "EQUAL":
             for user_id in participants:
 
                 expense_split = ExpenseSplit.objects.create(expense = expense,user_id=user_id,amount = Decimal(expense.amount)/Decimal(len(participants)))
-
+            
                 # # calculating user's total owed money
                 # owes,created = OwnedAmount.objects.get_or_create(group = group,user = user,
                 #                                                      defaults={'group' :group,

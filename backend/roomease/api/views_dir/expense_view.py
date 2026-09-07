@@ -14,8 +14,10 @@ class ExpenseView(APIView):
             group = Group.objects.get(id =id)
             expenses = Expense.objects.filter(group = group).order_by("-created_at")
             serializer = ExpenseSerializer(expenses,many = True)
-            expense_per_user = ExpenseOwnedService.expense_per_user(id)
-            return Response({"success":True,"data":serializer.data,"expense_per_user":expense_per_user},status=status.HTTP_200_OK)
+
+            net_balance_per_user = ExpenseOwnedService.calculate_net_balance_per_user(id)
+
+            return Response({"success":True,"data":serializer.data,"net_balance_per_user":net_balance_per_user},status=status.HTTP_200_OK)
         
         elif expense == 'specific':
             try:

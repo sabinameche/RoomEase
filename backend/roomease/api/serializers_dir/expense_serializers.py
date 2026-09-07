@@ -49,8 +49,9 @@ class ExpenseSerializer(ModelSerializer):
     def create(self,validated_data):
         participants = validated_data.pop("participants")
         split_type = validated_data.get("split_type")
+        paid_by = validated_data.get("paid_by")
         expense = Expense.objects.create(**validated_data)
 
-        ExpenseSplitService.create_expense_split(expense,participants,split_type)
+        ExpenseSplitService.create_expense_split(expense,participants,split_type,paid_by)
         return expense
     
