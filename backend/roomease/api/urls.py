@@ -19,4 +19,6 @@ urlpatterns = [
 
         path('expense/<str:expense>/<int:id>/',views.ExpenseView.as_view()),
         path('expense/<int:id>/',views.ExpenseView.as_view()),
+
+        path('settlement/<int:id>/',views.SettlementView.as_view())
 ]
