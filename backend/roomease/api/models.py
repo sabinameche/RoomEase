@@ -85,7 +85,9 @@ class ExpenseSplit(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
-class OwnedAmount(models.Model):
-    group = models.ForeignKey(Group,on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)   
-    amount = models.DecimalField(max_digits=10,decimal_places=2) 
+class Settlement(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    settled_by = models.ForeignKey(CustomUser,on_delete=models.PROTECT,related_name="settled_by_user")
+    received_by = models.ForeignKey(CustomUser, on_delete=models.PROTECT,related_name="received_by_user")
+    amount = models.DecimalField(max_digits= 10,decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)

@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.admin import ModelAdmin
 
 # Register your models here.
-from api.models import (CustomUser,Group,GroupInvite,GroupMember,Expense,ExpenseSplit,OwnedAmount)
+from api.models import (CustomUser,Group,GroupInvite,GroupMember,Expense,ExpenseSplit,Settlement)
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -29,6 +29,7 @@ class ExpenseAdmin(ModelAdmin):
 class ExpenseSplitAdmin(ModelAdmin):
     list_display = ['expense','user','amount']
 
-@admin.register(OwnedAmount)
-class OwnedAmountAdmin(ModelAdmin):
-    list_display = ['group','user','amount']
+@admin.register(Settlement)
+class SettlementAdmin(ModelAdmin):
+    list_display = ['group','settled_by','received_by','amount','created_at']
+
